@@ -86,6 +86,10 @@ protected partial def toString : Term → String
         let i := acc.get! 0
         let j := acc.get! 1
         literalT s!"(_ extract {Term.toString i} {Term.toString j})" :: acc.drop 2
+      -- Support the non-standard constant array constructor.
+      | appT (symbolT "as") (symbolT "const") =>
+        let t := acc.get! 0
+        literalT s!"(as const {Term.toString t})" :: acc.drop 1
       | appT f t => appToList (t :: acc) f
       | s        => s :: acc
 
